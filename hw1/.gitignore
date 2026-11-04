@@ -1,0 +1,5 @@
+bicycle_data.csv
+.venv/
+__pycache__/
+*.egg-info/
+.DS_Store
