@@ -6,9 +6,10 @@ The analysis uses the records from **2016**.
 
 ## Process
 
-The script reads the CSV with `pd.read_csv`, removes identical duplicate
-rows, converts `Date` to a datetime,
-and changes the sidewalk counts to nullable integers. Counts are whole
+The Seattle CSV is saved as `bicycle_data.csv`. The script reads it with
+`pd.read_csv` and handles commas in counts such as `1,071`. It shortens the
+East and West sidewalk column names, checks for identical duplicate rows,
+converts `Date` to a datetime, and changes the counts to nullable integers. Counts are whole
 numbers, but missing observations need to stay missing. It adds East and
 West to get `Total`, then uses `.dt.hour` and `.dt.year` to add the hour and
 year columns.
@@ -44,21 +45,19 @@ The CSV goes next to `hw1.py`, following the assignment's folder diagram.
 
 ## Results and verification
 
-The direct Seattle download was unavailable in the execution environment,
-so this run used the [copy published with the Python Data Science Handbook](https://github.com/jakevdp/bicycle-data/blob/dd8178d4776730fc6a6bfd33f3fa17ebadd5281b/FremontBridge.csv).
-That export covers October 2012 through December 2021, including all of 2016.
-The download command above points to the original Seattle source; results
-here are from the archived copy rather than a fresh Seattle export.
+This run uses the Seattle export downloaded on November 3, 2026, named
+`Fremont_Bridge_-_Combined_Bicycle_and_Scooter_Counter_20261103.csv`.
+It contains 122,675 records from October 2012 through September 2026.
 
-The archive contains each 2016 row twice. Removing identical duplicates
-leaves **8,784 hourly records**, as expected for a leap year. There is
+The 2016 subset contains **8,784 hourly records**, as expected for a leap
+year, with no duplicate rows or timestamps. There is
 **1 hour with missing counts**, March 13 at 2 a.m. No hourly timestamps
 are absent. After excluding that incomplete row, 8,783 records remain.
 The busiest hour is **17:00-18:00 (5-6 p.m.)**, averaging **399.03 bicycles**.
 
 ![Average bicycle counts by hour in 2016](counts_by_hour.png)
 
-The script was run on the archived data. A small separate test dataset also
+The script was run on the Seattle export. A small separate test dataset also
 checked year filtering, missing counts, hourly averages, and plot creation.
 The available environment used Python 3.11.7, pandas 2.1.4, NumPy 1.26.4,
 and matplotlib 3.10.8. The assignment's requested versions are kept in

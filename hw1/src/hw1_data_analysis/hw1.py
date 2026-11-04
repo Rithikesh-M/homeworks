@@ -9,21 +9,25 @@ import matplotlib.pyplot as plt
 
 def main():
     folder = Path(__file__).resolve().parent
-    data = pd.read_csv(folder / "bicycle_data.csv")
-    # The archived export repeats every 2016 row; count each reading once.
+    # Some counts use thousands separators, such as "1,071".
+    data = pd.read_csv(folder / "bicycle_data.csv", thousands=",")
+    # Count each reading once if an export contains identical duplicate rows.
     data = data.drop_duplicates().copy()
 
     # Date is the start of each hour and should be a datetime, not a string.
     # East and West are bicycle counts on each sidewalk. They should be whole
     # numbers; pandas' nullable Int64 also allows a count to be missing.
     # Some exports include a total column, which is also an integer count.
-    # Rename both the older sidewalk labels and the newer NB/SB labels.
+    # Shorten the sidewalk labels, including names used in earlier exports.
     data = data.rename(columns={
         "Fremont Bridge East Sidewalk": "East",
         "Fremont Bridge West Sidewalk": "West",
         "Fremont Bridge NB": "East",
         "Fremont Bridge SB": "West",
         "Fremont Bridge Total": "Reported total",
+        "Fremont Bridge Sidewalks, south of N 34th St Cyclist East Sidewalk": "East",
+        "Fremont Bridge Sidewalks, south of N 34th St Cyclist West Sidewalk": "West",
+        "Fremont Bridge Sidewalks, south of N 34th St Total": "Reported total",
     })
     # format="mixed" accepts ISO dates as well as the CSV's AM/PM dates.
     # In ISO dates, T is a literal separator, not a tab character.
@@ -49,7 +53,7 @@ def main():
     print(f"2016 rows with missing counts: {missing_counts.sum()}")
     print(f"2016 timestamps absent from the CSV: {len(absent_hours)}")
     # 2016 has 1 point with missing counts: March 13 at 02:00.
-    # No hourly timestamps are absent after removing identical duplicate rows.
+    # No hourly timestamps are absent in the 2016 data.
     # Exclude incomplete hours instead of treating an unknown count as zero.
     # Absent timestamps contribute no observations to the hourly averages.
     data_2016 = data_2016.loc[~missing_counts].copy()
