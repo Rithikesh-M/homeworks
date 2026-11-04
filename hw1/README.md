@@ -81,4 +81,4 @@ The script keeps the source's local clock hours. In an ISO date such as
 ## AI assistance
 
 AI helped look up Python and Git commands and refine the wording in this
-README. It also helped write and check the analysis code.
+README.
