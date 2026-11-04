@@ -77,3 +77,8 @@ to be checked in an environment with package download access.
 
 The script keeps the source's local clock hours. In an ISO date such as
 `2016-01-01T08`, the `T` separates the date and time; it is not a tab.
+
+## AI assistance
+
+AI helped look up Python and Git commands and refine the wording in this
+README. It also helped write and check the analysis code.
